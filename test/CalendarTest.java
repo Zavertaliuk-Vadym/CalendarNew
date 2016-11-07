@@ -10,11 +10,7 @@ import java.time.format.TextStyle;
 import java.time.temporal.WeekFields;
 import java.util.Locale;
 
-import static com.sun.org.apache.xerces.internal.util.PropertyState.is;
-import static com.sun.xml.internal.ws.dump.LoggingDumpTube.Position.After;
-import static com.sun.xml.internal.ws.dump.LoggingDumpTube.Position.Before;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
@@ -24,11 +20,9 @@ import static org.hamcrest.core.IsEqual.equalTo;
 public class CalendarTest {
     private static final int DAYS_IN_WEEK = 7;
     private static final int MAX_WEEKS_IN_MONTH = 6;
-    private static final String FORMAT = "%4s";
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private static final String RED_TEXT_START_TOKEN = (char) 27 + "[31m";
-    private static final String RED_TEXT_END_TOKEN = (char) 27 + "[0m";
     private static final String GREEN_TEXT_START_TOKEN = (char) 27 + "[32m";
     private static final String EXT_END_TOKEN = (char) 27 + "[0m";
 
@@ -104,17 +98,12 @@ public class CalendarTest {
 
             }
         }
-        expected.append("\n\r\n");
+        expected.append("\n\n");
 
 
         System.out.println(PrintInConsole.printCalendarHeader(weekends, firstDaySelectedMonth));
 
 
         assertThat(expected.toString(), equalTo(outContent.toString()));
-    }
-
-    @Test
-    public void checkFormat() {
-        assertThat(String.format(FORMAT, ""), is("    "));
     }
 }

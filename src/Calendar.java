@@ -16,10 +16,10 @@ public class Calendar {
         int firstDayInMonth = specificDate.with(TemporalAdjusters.firstDayOfMonth()).getDayOfWeek().getValue();
 
 
-        //ВЫБРАТЬ ПЕРВЫЙ ДЕНЬ НЕДЕЛИ
+        //Change first day of week
         int firstDayOfCalendar = DayOfWeek.FRIDAY.minus(1).getValue();
 
-        //ВЫБРАТЬ ВЫХОДНЫЕ!
+        //change weekends
         int[] weekends = {DayOfWeek.MONDAY.plus(firstDayOfCalendar).getValue(), DayOfWeek.TUESDAY.plus(firstDayOfCalendar).getValue()};
 
         boolean console = true;

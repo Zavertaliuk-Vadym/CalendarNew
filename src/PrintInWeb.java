@@ -5,9 +5,12 @@ import java.util.Locale;
 class PrintInWeb {
     private static final int DAYS_IN_WEEK = 7;
     private static final int MAX_WEEKS_IN_MONTH = 6;
-    private static final String RED_TEXT_START_TOKEN_IN_WEB = "<font style ='color:red;'>";
-    private static final String TEXT_END_TOKEN_IN_WEB = "</font>";
-    private static final String GREEN_TEXT_START_TOKEN_IN_WEB = "<font style ='color:gold;'>";
+    private static final String WEEKEND_TEXT_START_TOKEN_IN_WEB ="<td class=\"weekend\">";
+
+//"<td class=\"anotherMonthColor\">" + formattedDay + "</td>";
+    private static final String TEXT_END_TOKEN_IN_WEB = "</td>";
+    private static final String CURRENT_DAY_TEXT_START_TOKEN_IN_WEB = "<td class=\"currentDay\">";
+
     private static final String OPEN_TAG_TABLE_COLUMN = "<td>";
     private static final String CLOSE_TAG_TABLE_COLUMN = "</td>";
     private static final String OPEN_TAG_TABLE_ROW = "<tr>";
@@ -31,9 +34,9 @@ class PrintInWeb {
                     continue;
                 }
                 if (a[i][j] == day)
-                    printerCalendarArray.append(String.format(OPEN_TAG_TABLE_COLUMN + GREEN_TEXT_START_TOKEN_IN_WEB + "%4d" + TEXT_END_TOKEN_IN_WEB + CLOSE_TAG_TABLE_COLUMN, a[i][j]));
+                    printerCalendarArray.append(String.format(CURRENT_DAY_TEXT_START_TOKEN_IN_WEB + "%4d" + TEXT_END_TOKEN_IN_WEB , a[i][j]));
                 else if (j == weekends[0] - monthStartWithThisDate || j == weekends[1] - monthStartWithThisDate) {
-                    printerCalendarArray.append(String.format(OPEN_TAG_TABLE_COLUMN + RED_TEXT_START_TOKEN_IN_WEB + "%4d" + TEXT_END_TOKEN_IN_WEB + CLOSE_TAG_TABLE_COLUMN, a[i][j]));
+                    printerCalendarArray.append(String.format( WEEKEND_TEXT_START_TOKEN_IN_WEB + "%4d" + TEXT_END_TOKEN_IN_WEB , a[i][j]));
                 } else {
                     printerCalendarArray.append(String.format(OPEN_TAG_TABLE_COLUMN + "%4d" + CLOSE_TAG_TABLE_COLUMN, a[i][j]));
                 }
@@ -44,12 +47,11 @@ class PrintInWeb {
     }
 
     private static String printCalendarHeader(int[] weekends, int dayStartWithThisDate) {
-        int j = 0;
         StringBuilder printerCalendarHeader = new StringBuilder();
         printerCalendarHeader.append(OPEN_TAG_TABLE_ROW);
         for (int i = dayStartWithThisDate; i < DAYS_IN_WEEK + dayStartWithThisDate; i++) {
             if (i == weekends[0] || i == weekends[1]) {
-                printerCalendarHeader.append(String.format(OPEN_TAG_TABLE_COLUMN + RED_TEXT_START_TOKEN_IN_WEB + "%4s" + TEXT_END_TOKEN_IN_WEB + CLOSE_TAG_TABLE_COLUMN, WeekFields.of(Locale.UK)
+                printerCalendarHeader.append(String.format(WEEKEND_TEXT_START_TOKEN_IN_WEB + "%4s" + TEXT_END_TOKEN_IN_WEB , WeekFields.of(Locale.UK)
                         .getFirstDayOfWeek()
                         .plus(i)
                         .getDisplayName(TextStyle.SHORT, Locale.UK)
@@ -61,7 +63,6 @@ class PrintInWeb {
                         .getDisplayName(TextStyle.SHORT, Locale.UK)
                         .toUpperCase()));
             }
-            j++;
         }
         printerCalendarHeader.append(CLOSE_TAG_TABLE_ROW);
         return printerCalendarHeader.toString();
@@ -71,6 +72,20 @@ class PrintInWeb {
 
         return "<Html>\n" +
                 "<head>\n" +
+                "<style>\n" +
+                "       td.weekend{\n" +
+                "           color: red;\n" +
+                "       }\n" +
+                "       td.currentDay{\n" +
+                "           color: cyan;\n" +
+                "       }\n" +
+                "       td.anotherMonthColor{\n" +
+                "           color: orange;\n" +
+                "       }\n" +
+                "       td{\n" +
+                "           padding:2px;\n" +
+                "       }\n" +
+                "   </style>\n"+
                 "</head>\n" +
                 "<body>\n" +
                 "<table>";
